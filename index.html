@@ -3,109 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <title>SCT Portal Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
-    font-family: "Segoe UI", sans-serif;
-    margin: 0;
-    background: #f4f6f9;
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  background: #f4f6fa;
 }
 
 .header {
-    background: #0b3d91;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+  background: #0b3d91;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .container {
-    padding: 20px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
 }
 
 .card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    transition: 0.2s;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+.card h2 {
+  margin-bottom: 10px;
+  color: #0b3d91;
 }
 
-.card h3 {
-    margin: 10px 0;
-    color: #0b3d91;
+.card p {
+  color: #666;
+  font-size: 14px;
 }
 
-.card a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 14px;
-    background: #0b3d91;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-}
-
-.card a:hover {
-    background: #092f6b;
+.btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  background: #0b3d91;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 </style>
+
+<script>
+function openStrategic() {
+  window.open("https://accsrichonlathorn-collab.github.io/SCT_Strategic_Intersection_Dashboard_new/", "_blank");
+}
+
+function openExecutive() {
+  window.open("https://accsrichonlathorn-collab.github.io/SCT_Executive_Status_Board_new/", "_blank");
+}
+</script>
 
 </head>
 
 <body>
 
 <div class="header">
-    SCT Portal Dashboard
+SCT Portal Dashboard
 </div>
 
 <div class="container">
 
-    <div class="grid">
+  <div class="card">
+    <h2>📊 Strategic Dashboard</h2>
+    <p>ภาพรวมกลยุทธ์</p>
+    <button class="btn" onclick="openStrategic()">เปิดใช้งาน</button>
+  </div>
 
-        <!-- Dashboard 1 -->
-        <div class="card">
-            <h3>📊 Strategic Dashboard</h3>
-            <p>ภาพรวมกลยุทธ์</p>
-            <a href="https://accsrichonlathorn-collab.github.io/SCT_Strategic_Intersection_Dashboard_new/">
-                เปิดใช้งาน
-            </a>
-        </div>
-
-        <!-- เพิ่มได้เรื่อยๆ -->
-        <div class="card">
-            <h3>💰 Finance</h3>
-            <p>การเงิน / รายรับรายจ่าย</p>
-            <a href="#" target="_blank">เปิดใช้งาน</a>
-        </div>
-
-        <div class="card">
-            <h3>🏠 Property</h3>
-            <p>ที่ดิน / บ้าน</p>
-            <a href="#" target="_blank">เปิดใช้งาน</a>
-        </div>
-
-        <div class="card">
-            <h3>⚙️ Operation</h3>
-            <p>งานปฏิบัติการ</p>
-            <a href="#" target="_blank">เปิดใช้งาน</a>
-        </div>
-
-    </div>
+  <div class="card">
+    <h2>📈 Executive Dashboard</h2>
+    <p>สถานะผู้บริหาร</p>
+    <button class="btn" onclick="openExecutive()">เปิดใช้งาน</button>
+  </div>
 
 </div>
 
