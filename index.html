@@ -2,333 +2,111 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>SCT Strategic Intersection Dashboard</title>
+<title>SCT Portal Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-:root { color-scheme: light; }
-* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: -apple-system, "Segoe UI", "Sukhumvit Set", "Prompt", sans-serif;
-  background: #f4f6fa;
-  color: #1a2332;
-  line-height: 1.55;
-  padding: 16px;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    background: #f4f6f9;
 }
-h1 { font-size: 22px; color: #0b3d91; margin-bottom: 4px; }
-h2 { font-size: 17px; color: #0b3d91; margin: 18px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #0b3d91; display: flex; align-items: center; gap: 8px; }
-h3 { font-size: 14px; color: #2c3e50; margin: 10px 0 6px; }
-.subtitle { color: #5a6c80; font-size: 12px; margin-bottom: 14px; }
-.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-.tag-best { background: #e3f2e6; color: #1f7a3a; }
-.tag-worst { background: #fde8e8; color: #b91c1c; }
-.tag-valid { background: #e3f2e6; color: #1f7a3a; }
-.tag-risk { background: #fde8e8; color: #b91c1c; }
-.tag-fear { background: #fff4d6; color: #8a6d00; }
-.tag-need { background: #e0e7f5; color: #0b3d91; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-@media (max-width: 800px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+.header {
+    background: #0b3d91;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
 
-.card { background: #ffffff; border: 1px solid #e3e8f0; border-radius: 10px; padding: 14px; box-shadow: 0 1px 3px rgba(11,61,145,.04); }
-.card.best { border-left: 4px solid #1f7a3a; }
-.card.worst { border-left: 4px solid #b91c1c; }
-.card.intersect { border-left: 4px solid #ff8c00; background: linear-gradient(180deg,#fff8ed 0%, #ffffff 70%); }
-.card.recommend { border-left: 4px solid #0b3d91; background: linear-gradient(180deg,#eef3ff 0%, #ffffff 70%); }
+.container {
+    padding: 20px;
+}
 
-.kpi { display: flex; flex-direction: column; gap: 2px; }
-.kpi-label { font-size: 11px; color: #5a6c80; text-transform: uppercase; letter-spacing: .5px; }
-.kpi-value { font-size: 20px; font-weight: 700; color: #0b3d91; }
-.kpi-sub { font-size: 11px; color: #5a6c80; }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
 
-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-th { background: #0b3d91; color: white; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 12px; }
-td { padding: 8px 10px; border-bottom: 1px solid #e3e8f0; vertical-align: top; }
-tr:nth-child(even) td { background: #f9fafc; }
-tr:hover td { background: #fff8ed; }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
 
-.exec-summary { background: linear-gradient(135deg,#0b3d91 0%, #1e5fc7 100%); color: white; padding: 18px; border-radius: 12px; margin-bottom: 18px; }
-.exec-summary h1 { color: white; }
-.exec-summary .subtitle { color: #c8d6f0; }
-.exec-summary p { font-size: 13.5px; line-height: 1.7; }
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
 
-.option-card { padding: 14px; border-radius: 10px; border: 1px solid #e3e8f0; background: white; height: 100%; }
-.option-card.A { border-top: 4px solid #6c757d; }
-.option-card.B { border-top: 4px solid #ff8c00; box-shadow: 0 4px 14px rgba(255,140,0,.15); transform: scale(1.01); }
-.option-card.C { border-top: 4px solid #b91c1c; }
-.option-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
-.option-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 8px; }
-.option-tag.A { background: #f1f3f5; color: #495057; }
-.option-tag.B { background: #ffe8cc; color: #b95900; }
-.option-tag.C { background: #fde8e8; color: #b91c1c; }
-.option-card ul { padding-left: 18px; font-size: 12.5px; margin: 6px 0; }
-.option-card li { margin: 3px 0; }
-.option-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e3e8f0; font-size: 11.5px; }
-.option-meta strong { color: #0b3d91; }
+.card h3 {
+    margin: 10px 0;
+    color: #0b3d91;
+}
 
-.action-list { counter-reset: act; padding: 0; }
-.action-list li { list-style: none; counter-increment: act; padding: 10px 12px 10px 42px; position: relative; background: #f9fafc; border-radius: 8px; margin-bottom: 8px; font-size: 13px; }
-.action-list li::before { content: counter(act); position: absolute; left: 10px; top: 10px; width: 24px; height: 24px; background: #0b3d91; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
-.action-list li strong { color: #0b3d91; }
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #0b3d91;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
 
-.gap { font-size: 12.5px; padding: 8px 10px; background: #fff4d6; border-left: 3px solid #c79100; margin: 4px 0; border-radius: 4px; }
-
-.metric-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12.5px; border-bottom: 1px dashed #e8ecf3; }
-.metric-row:last-child { border-bottom: none; }
-.metric-row span:last-child { font-weight: 600; color: #0b3d91; }
-
-.legend { font-size: 11px; color: #5a6c80; margin-top: 4px; }
-.footer { text-align: center; color: #8a98ad; font-size: 11px; margin-top: 24px; padding-top: 12px; border-top: 1px solid #e3e8f0; }
+.card a:hover {
+    background: #092f6b;
+}
 </style>
+
 </head>
+
 <body>
 
-<div class="exec-summary">
-  <h1>Strategic Intersection Dashboard</h1>
-  <div class="subtitle">โจทย์: บริหารจัดการทรัพย์สิน SCT ให้เกิดมูลค่าสูงสุด รองรับ Backlog ปี 2569 · As of 30 เม.ย. 2569 · CFO Ava</div>
-  <p><strong>Executive Summary —</strong> ทั้ง Opportunity Team และ Risk Team จบที่ <em>Conservative</em> เหมือนกัน แต่จุดตัดที่ "คุ้ม-เสี่ยงคุม-ทำได้จริง" คือ <strong>Balanced ขับเคลื่อนด้วยวินัย Conservative</strong> ผ่าน 3 move หลัก: (1) Switch หลักประกันบ้าน 51/4 ปลด FD 10 ลบ. + ได้ LG 40 ลบ. (2) Refinance สักพนา +12.7 ลบ. cash net (3) ขอวงเงินใหม่จากที่ดินเปล่าเชียงราย (ด้านหลัง). รวมปลดล็อก <strong>+22.7 ลบ. cash, +40 ลบ. LG, รองรับ backlog เพิ่ม ~200 ลบ.</strong> ภายใน 60–90 วัน — โดยไม่ต้องเพิ่มหลักประกันส่วนตัวเกินจำเป็น</p>
+<div class="header">
+    SCT Portal Dashboard
 </div>
 
-<div class="grid-4">
-  <div class="card"><div class="kpi"><span class="kpi-label">Asset Portfolio</span><span class="kpi-value">401.3 ลบ.</span><span class="kpi-sub">ราคาประเมิน · 21 รายการ</span></div></div>
-  <div class="card"><div class="kpi"><span class="kpi-label">Acquisition Cost</span><span class="kpi-value">250.9 ลบ.</span><span class="kpi-sub">Unrealized Gain ~150.4 ลบ.</span></div></div>
-  <div class="card"><div class="kpi"><span class="kpi-label">Free Collateral</span><span class="kpi-value">3.4 ลบ.</span><span class="kpi-sub">ปลอดภาระจริง · 1 แปลง</span></div></div>
-  <div class="card"><div class="kpi"><span class="kpi-label">Total Bank Lines</span><span class="kpi-value">~2,500 ลบ.</span><span class="kpi-sub">7 ธนาคาร · ใช้สูง SCB/KTB</span></div></div>
-</div>
+<div class="container">
 
-<h2>1 · Best Case Essence <span class="tag tag-best">Opportunity Team</span></h2>
-<div class="grid-3">
-  <div class="card best">
-    <h3>โอกาสหลัก</h3>
-    <p style="font-size:12.5px">Hidden liquidity ใน 3 ทรัพย์สิน + Switch หลักประกันที่ทำให้ "คืนเงินสด + เพิ่มวงเงิน LG" ในจังหวะเดียว</p>
-  </div>
-  <div class="card best">
-    <h3>Leverage</h3>
-    <p style="font-size:12.5px">บ้าน 51/4 (มูลค่าประเมิน 21.25 ลบ., ภาระ 12 ลบ.) ปิดภาระแล้ว Switch แทนเงินฝาก ได้ FD คืน 10 ลบ. + วงเงิน LG 40 ลบ.</p>
-  </div>
-  <div class="card best">
-    <h3>Upside ที่สำคัญที่สุด</h3>
-    <p style="font-size:12.5px">รองรับ Backlog เพิ่ม ~200 ลบ. (LG สัญญา+ผลงาน 10% + LG Adv 10%) — Refinance สักพนา +12.7 ลบ. cash net</p>
-  </div>
-</div>
+    <div class="grid">
 
-<h2>2 · Worst Case Essence <span class="tag tag-worst">Risk Team</span></h2>
-<div class="grid-3">
-  <div class="card worst">
-    <h3>ความเสี่ยงหลัก</h3>
-    <p style="font-size:12.5px">หลักทรัพย์เกือบทุกแปลงติดภาระอยู่แล้ว · Document Readiness ไม่ครบ 7 วัน · Trust capital กับธนาคารบาง</p>
-  </div>
-  <div class="card worst">
-    <h3>Bottleneck</h3>
-    <p style="font-size:12.5px">เซ็นสัญญาช้า 30–60 วัน → APB ออกไม่ได้ → cash gap 10–15 ลบ./โครงการ 100 ลบ. · BG slot ถูกปลด · Pricing +25–75 bps</p>
-  </div>
-  <div class="card worst">
-    <h3>จุดพัง</h3>
-    <p style="font-size:12.5px">Compounding effect: หลายโครงการเลื่อนพร้อมกัน → liquidity หด → จ่าย sub/supplier ไม่ทัน → cash runway &lt; 8 สัปดาห์</p>
-  </div>
-</div>
+        <!-- Dashboard 1 -->
+        <div class="card">
+            <h3>📊 Strategic Dashboard</h3>
+            <p>ภาพรวมกลยุทธ์</p>
+            <a href="https://accsricholnathorn-collab.github.io/sct-dashboard/" target="_blank">
+                เปิดใช้งาน
+            </a>
+        </div>
 
-<h2>3 · Collision Analysis · จุดชนกันของสองฝั่ง</h2>
-<div class="card">
-<table>
-<thead><tr><th style="width:20%">ประเด็น</th><th style="width:22%">Best Case มองว่า</th><th style="width:22%">Worst Case เตือนว่า</th><th style="width:26%">วิเคราะห์จริงโดย CFO</th><th style="width:10%">สถานะ</th></tr></thead>
-<tbody>
-<tr><td><strong>ที่ดินว่าง 3 แปลง</strong></td><td>เปิด hidden liquidity ใหม่ทันที</td><td>2 ใน 3 แปลงยังมีภาระ (สราญ 4.3, โมทีค 15.4)</td><td>ปลอดภาระจริง = แค่ที่ดินเปล่า เชียงราย (ด้านหลัง) 3.4 ลบ. — เล็กแต่ "ใช้ได้ทันทีไม่มี cost ปิดภาระ"</td><td><span class="tag tag-valid">VALID</span></td></tr>
-<tr><td><strong>Refinance สักพนา</strong></td><td>+12.7 ลบ. cash net (ประเมินใหม่ 55–65)</td><td>ราคาประเมินใหม่อาจไม่ถึง 55–65 ลบ. — ขึ้นกับธนาคารใหม่</td><td>เคสนี้ถือมา 8 ปี ราคาที่ดินเชียงราย +25–40% มี logic — แต่ <em>ต้องล็อก term sheet ก่อน execute</em></td><td><span class="tag tag-valid">VALID</span></td></tr>
-<tr><td><strong>Switch บ้าน 51/4</strong></td><td>ปิดภาระ 12 → ปลด FD 10 + LG 40 รองรับ backlog 200</td><td>ใช้เงิน 12 ลบ. ในจังหวะที่ cash อาจตึง</td><td>Net cash เพิ่ม +(10−12)= −2 ลบ. ระยะสั้น แต่ปลดล็อก capacity 200 ลบ. — ROI สูงมากถ้าจังหวะ backlog มี</td><td><span class="tag tag-valid">VALID</span></td></tr>
-<tr><td><strong>เอกสารยื่นธนาคาร 7 วัน</strong></td><td>ขอวงเงินใหม่ภายใน 30–90 วัน</td><td>cash flow รายโครงการ / aging / margin / collateral summary ยังไม่ครบ</td><td>เอกสารคือ "ขั้นวิกฤต" — Best Case มองข้าม Risk ชี้ถูก. ต้องปิดก่อน Execute</td><td><span class="tag tag-risk">RISK</span></td></tr>
-<tr><td><strong>Trust capital กับธนาคาร</strong></td><td>ยังไม่กล่าวถึง</td><td>เลื่อนเซ็น = downgrade pricing ในรอบ renew</td><td>เป็นความเสี่ยงเชิง operational ไม่ใช่ financial โดยตรง — ป้องกันได้ด้วย proactive communication</td><td><span class="tag tag-fear">FEAR</span></td></tr>
-<tr><td><strong>BG slot management</strong></td><td>ขอวงเงินเป้าหมายเพิ่ม</td><td>BG slot ที่จองไว้อาจถูกปลด / commitment fee จม</td><td>ต้องดู utilization จริง — ไม่พบในไฟล์ว่ามีกี่ slot จมเท่าไร</td><td><span class="tag tag-need">NEED DATA</span></td></tr>
-<tr><td><strong>คุณตะวันค้ำเกือบทุกวง</strong></td><td>ไม่กล่าวถึง</td><td>ไม่กล่าวถึงโดยตรง</td><td><strong>Single point of failure</strong> ที่ไฟล์ทั้งสองฝั่งไม่พูดถึง — ทุกวงเงินเชื่อมกับการค้ำของคุณตะวัน</td><td><span class="tag tag-risk">RISK</span></td></tr>
-<tr><td><strong>3 ทางเลือก A/B/C</strong></td><td>ทีมเลือก Conservative</td><td>ทีมเลือก Conservative</td><td>ทั้งสองทีมเลือก Conservative — แปลว่า "ปลอดภัยจริง" หรือ "หลีกเลี่ยงตัดสินใจ"? ต้องท้าทายสมมติฐาน</td><td><span class="tag tag-need">NEED DATA</span></td></tr>
-</tbody>
-</table>
-</div>
+        <!-- เพิ่มได้เรื่อยๆ -->
+        <div class="card">
+            <h3>💰 Finance</h3>
+            <p>การเงิน / รายรับรายจ่าย</p>
+            <a href="#" target="_blank">เปิดใช้งาน</a>
+        </div>
 
-<h2>4 · Strategic Intersection · จุดตัดทางความคิด</h2>
-<div class="card intersect">
-<p style="font-size:13.5px"><strong>นิยามจุดตัด:</strong> ไม่ใช่ค่าเฉลี่ย ไม่ใช่ประนีประนอม — แต่คือ "โอกาสยังคุ้ม + ความเสี่ยงควบคุมได้ + ทำได้จริงใน time slot + วัดผลได้"</p>
-<div class="grid-2" style="margin-top:10px">
-  <div>
-    <h3 style="color:#1f7a3a">โอกาสจริง (Real Upside)</h3>
-    <ul style="padding-left:18px;font-size:12.5px">
-      <li><strong>Switch บ้าน 51/4:</strong> +10 ลบ. FD คืน, +40 ลบ. LG, +200 ลบ. backlog capacity</li>
-      <li><strong>Refinance สักพนา:</strong> +12.7 ลบ. cash net (มี logic asset appreciation)</li>
-      <li><strong>ที่ดินเชียงราย ด้านหลัง:</strong> +3–5 ลบ. วงเงินใหม่ (ปลอดภาระ พร้อมใช้ทันที)</li>
-    </ul>
-  </div>
-  <div>
-    <h3 style="color:#b91c1c">ความเสี่ยงต้องจัดการ (Real Risk)</h3>
-    <ul style="padding-left:18px;font-size:12.5px">
-      <li><strong>Document gap:</strong> ปิดให้ครบก่อน execute — ไม่งั้นได้ราคาประเมินต่ำ</li>
-      <li><strong>Cash bridge 12 ลบ.:</strong> ต้องมี source ก่อนจะปิดภาระ 51/4</li>
-      <li><strong>Single point: คุณตะวันค้ำ:</strong> เริ่มกระจาย personal guarantee</li>
-    </ul>
-  </div>
-</div>
-<p style="margin-top:10px;font-size:13px;background:#fff8ed;padding:10px;border-radius:6px"><strong>The Intersection:</strong> ทำ "Balanced" แต่ใช้ "Conservative discipline" — จัดเรียงลำดับ: <em>ปิด document gap (7 วัน) → Switch 51/4 (30 วัน) → Refinance สักพนา (60 วัน) → ขอวงเงินใหม่ที่ดินว่าง (90 วัน)</em></p>
-</div>
+        <div class="card">
+            <h3>🏠 Property</h3>
+            <p>ที่ดิน / บ้าน</p>
+            <a href="#" target="_blank">เปิดใช้งาน</a>
+        </div>
 
-<h2>5 · 3 Options เปรียบเทียบ</h2>
-<div class="grid-3">
+        <div class="card">
+            <h3>⚙️ Operation</h3>
+            <p>งานปฏิบัติการ</p>
+            <a href="#" target="_blank">เปิดใช้งาน</a>
+        </div>
 
-  <div class="option-card A">
-    <div class="option-title">Option A: Conservative <span class="option-tag A">PLAY SAFE</span></div>
-    <p style="font-size:12px;color:#5a6c80">"ใช้ทรัพย์ที่พร้อม + ปิด gap + ขอเท่าจำเป็น"</p>
-    <h3>แนวทาง</h3>
-    <ul>
-      <li>ขอวงเงินใหม่จากที่ดินเชียงราย (ด้านหลัง) ปลอดภาระ</li>
-      <li>ปิด document gap 6 รายการ</li>
-      <li>ไม่ทำ refinance / ไม่ทำ switch</li>
-    </ul>
-    <h3>เหตุผล / Trade-off</h3>
-    <p style="font-size:12px">เร็ว ปลอดภัย — แต่ทิ้ง upside ใหญ่ที่สุด (Switch 51/4) ไป</p>
-    <div class="option-meta">
-      <div><strong>Upside</strong><br>+3–5 ลบ. cash, +10–15 ลบ. line</div>
-      <div><strong>Downside</strong><br>เสีย opportunity 200 ลบ. backlog</div>
-      <div><strong>Time</strong><br>30–45 วัน</div>
-      <div><strong>Risk</strong><br>Low</div>
-      <div><strong>EV</strong><br>~5 ลบ.</div>
-      <div><strong>Confidence</strong><br>High (90%)</div>
     </div>
-    <div class="option-meta" style="grid-template-columns:1fr">
-      <div><strong>Owner</strong><br>ฝ่ายบัญชีการเงิน + RM ธนาคารหลัก</div>
-    </div>
-  </div>
 
-  <div class="option-card B">
-    <div class="option-title">Option B: Balanced &#11088; <span class="option-tag B">RECOMMENDED</span></div>
-    <p style="font-size:12px;color:#5a6c80">"จุดตัดของ CFO Ava — ทำ 3 move ขับเคลื่อนด้วยวินัย Conservative"</p>
-    <h3>แนวทาง</h3>
-    <ul>
-      <li><strong>Move 1 (D7):</strong> ปิด document gap คู่ขนาน</li>
-      <li><strong>Move 2 (D30):</strong> Switch บ้าน 51/4 → ปลด FD 10 + LG 40</li>
-      <li><strong>Move 3 (D60):</strong> Refinance สักพนา → +12.7 ลบ.</li>
-      <li><strong>Move 4 (D90):</strong> ที่ดินเชียงรายว่าง → วงเงินใหม่</li>
-    </ul>
-    <h3>เหตุผล / Trade-off</h3>
-    <p style="font-size:12px">โอกาสคุ้ม + ความเสี่ยงคุมได้ + ใช้ทรัพย์ที่มี + วัดผลชัด</p>
-    <div class="option-meta">
-      <div><strong>Upside</strong><br>+22.7 ลบ. cash, +40 ลบ. LG, +200 ลบ. backlog cap.</div>
-      <div><strong>Downside</strong><br>Cash bridge 12 ลบ. ใน 30 วัน</div>
-      <div><strong>Time</strong><br>60–90 วัน</div>
-      <div><strong>Risk</strong><br>Medium</div>
-      <div><strong>EV</strong><br>~18 ลบ. cash + 200 ลบ. capacity</div>
-      <div><strong>Confidence</strong><br>Medium-High (75%)</div>
-    </div>
-    <div class="option-meta" style="grid-template-columns:1fr">
-      <div><strong>Owner</strong><br>CFO + ฝ่ายการเงิน + ผู้บริหาร (คุณตะวัน)</div>
-    </div>
-  </div>
-
-  <div class="option-card C">
-    <div class="option-title">Option C: Aggressive <span class="option-tag C">HIGH RISK</span></div>
-    <p style="font-size:12px;color:#5a6c80">"Refinance ทั้ง portfolio + ขอวงเงินใหม่ทุกธนาคาร"</p>
-    <h3>แนวทาง</h3>
-    <ul>
-      <li>Refinance สักพนา + บ้าน 51 series + ปากช่อง</li>
-      <li>ขอวงเงินใหม่ทุกธนาคารพร้อมกัน</li>
-      <li>Push utilization ทุกวง</li>
-    </ul>
-    <h3>เหตุผล / Trade-off</h3>
-    <p style="font-size:12px">Upside สูงมาก — แต่ <strong>covenant breach risk</strong> + reputational + concentration ที่คุณตะวัน</p>
-    <div class="option-meta">
-      <div><strong>Upside</strong><br>+50–80 ลบ. cash, +300 ลบ. BG capacity</div>
-      <div><strong>Downside</strong><br>Pricing +50–100 bps, signal risk</div>
-      <div><strong>Time</strong><br>90–180 วัน</div>
-      <div><strong>Risk</strong><br>High</div>
-      <div><strong>EV</strong><br>~50 ลบ. แต่ variance สูง</div>
-      <div><strong>Confidence</strong><br>Low (45%)</div>
-    </div>
-    <div class="option-meta" style="grid-template-columns:1fr">
-      <div><strong>Owner</strong><br>CEO + Board + CFO</div>
-    </div>
-  </div>
-
-</div>
-
-<h2>6 · Time Slot Projection · ฉายผลแต่ละทางในกรอบเวลา</h2>
-<div class="card">
-<table>
-<thead><tr><th>Option</th><th>7 วัน</th><th>30 วัน</th><th>90 วัน</th><th>ถ้าไม่ทำจะเสียอะไร</th></tr></thead>
-<tbody>
-<tr>
-  <td><strong>A · Conservative</strong></td>
-  <td>เริ่มขอเอกสาร, contact RM</td>
-  <td>ปิด gap, ยื่น collateral ใหม่</td>
-  <td>ได้วงเงินใหม่ 10–15 ลบ.</td>
-  <td>ทิ้ง LG 40 ลบ. + capacity 200 ลบ.</td>
-</tr>
-<tr style="background:#fff8ed">
-  <td><strong>B · Balanced &#11088;</strong></td>
-  <td>เอกสารพร้อม, source bridge 12 ลบ.</td>
-  <td>Switch 51/4 สำเร็จ, FD คืน 10 ลบ., LG 40 พร้อม</td>
-  <td>Refinance สักพนา +12.7 ลบ., วงเงินใหม่ที่ดินว่าง +5 ลบ.</td>
-  <td>เสีย backlog เพิ่ม 200 ลบ. + reputational เปรียบเทียบกับคู่แข่ง</td>
-</tr>
-<tr>
-  <td><strong>C · Aggressive</strong></td>
-  <td>เริ่ม approach หลายธนาคารพร้อมกัน</td>
-  <td>เอกสารยังไม่ครบทุกธนาคาร — เริ่มเสีย credibility</td>
-  <td>ได้บางส่วน เสียบางส่วน — pricing สูงขึ้น</td>
-  <td>ถ้าไม่ทำคือเสีย mega-upside แต่ถ้าทำผิดจังหวะ → covenant pressure</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<h2>7 · CFO Recommendation</h2>
-<div class="card recommend">
-<h3 style="color:#0b3d91;font-size:16px">▶ เลือก Option B: Balanced</h3>
-<div class="grid-2" style="margin-top:8px">
-  <div>
-    <h3>ทำไมเลือก B</h3>
-    <ul style="font-size:12.5px;padding-left:18px">
-      <li>ตัวเลขชัดทุก move — Switch 51/4 มี logic ตรงกับเงื่อนไข LG ของ SCB</li>
-      <li>Risk บริหารได้ผ่านลำดับ "เอกสาร → switch → refinance → new line"</li>
-      <li>Upside วัดได้: +22.7 cash + 40 LG + 200 backlog capacity</li>
-      <li>ใช้ทรัพย์ที่มี ไม่ต้องเพิ่ม personal guarantee เกิน</li>
-    </ul>
-  </div>
-  <div>
-    <h3>ทำไมไม่เลือก A และ C</h3>
-    <ul style="font-size:12.5px;padding-left:18px">
-      <li><strong>ไม่เลือก A:</strong> ทิ้ง upside 200 ลบ. backlog ที่อยู่ในมือ — เป็น "ความปลอดภัยที่แพงที่สุด"</li>
-      <li><strong>ไม่เลือก C:</strong> Concentration risk ที่คุณตะวันค้ำ + เอกสารยังไม่พร้อม → Aggressive โดยไม่มีฐาน = ความเสี่ยงคุณภาพ</li>
-    </ul>
-  </div>
-</div>
-
-<h3 style="margin-top:14px">การตัดสินใจที่ต้องทำทันที</h3>
-<ul style="font-size:12.5px;padding-left:18px">
-  <li><strong>Decision 1:</strong> อนุมัติแผน Switch 51/4 (CEO + คุณตะวัน) — ภายใน 7 วัน</li>
-  <li><strong>Decision 2:</strong> Source bridge cash 12 ลบ. (จาก revolving / FD บางส่วน) — ภายใน 14 วัน</li>
-  <li><strong>Decision 3:</strong> Mandate ให้ฝ่ายการเงินทำเอกสาร 6 ชุดให้ครบ — ภายใน 7 วัน</li>
-</ul>
-</div>
-
-<h2>8 · First 3 Actions · เริ่มพรุ่งนี้</h2>
-<div class="card">
-<ol class="action-list">
-<li><strong>Document Sprint (D1–D7):</strong> รวบรวม cash flow รายโครงการ · backlog certainty · AR aging · project margin · collateral summary · personal financial strength → จัดเป็น Bank Pack มาตรฐาน. <em>Owner: ฝ่ายบัญชีการเงิน · Deadline: 7 พ.ค. 2569</em></li>
-<li><strong>SCB Switch Memo (D1–D14):</strong> ร่าง memo เสนอ SCB เพื่อ Switch บ้าน 51/4 (ปิด Loan 12 ลบ. → เปลี่ยนหลักประกันเงินฝาก 10 ลบ. มาเป็น real estate → ขอ LG 40 ลบ.) พร้อม source bridge 12 ลบ. <em>Owner: CFO + RM SCB · Deadline: 14 พ.ค. 2569</em></li>
-<li><strong>Refinance สักพนา · Term Sheet (D15–D60):</strong> เปิด conversation 2–3 ธนาคารคู่แข่งของเงินทุนแอดวานซ์ ขอประเมินใหม่ ล็อก term sheet ก่อน execute. ไม่ลงนามจนกว่าจะได้ vs benchmark. <em>Owner: CFO + ผู้บริหาร · Deadline: 30 มิ.ย. 2569</em></li>
-</ol>
-</div>
-
-<h2>9 · Missing Data · ที่ต้องไปหาเพิ่ม</h2>
-<div class="card">
-<div class="gap"><strong>1. BG slot utilization จริงต่อธนาคาร (Impact: HIGH)</strong> — ไม่รู้ว่าจอง slot ไหนยังไม่ใช้ → อาจเสีย commitment fee จม. <em>Owner: ฝ่ายการเงิน · Deadline: 7 วัน</em></div>
-<div class="gap"><strong>2. Backlog ที่ certain ปี 2569 — มูลค่าจริง (Impact: HIGH)</strong> — ตัวเลข 200 ลบ. capacity จะใช้จริงเมื่อมี backlog ที่ certain ระดับนี้. <em>Owner: BD + Project Office · Deadline: 14 วัน</em></div>
-<div class="gap"><strong>3. ราคาประเมินใหม่ของสักพนา (Impact: MEDIUM)</strong> — ตัวเลข 55–65 ลบ. เป็นการคาดการณ์ ต้องได้ valuation เอกสารจริงจากธนาคารใหม่. <em>Owner: CFO · Deadline: 30 วัน</em></div>
-<div class="gap"><strong>4. Personal Financial Statement ของคุณตะวัน · ปัจจุบัน (Impact: HIGH)</strong> — เพราะคุณตะวันค้ำเกือบทุกวง ความเสี่ยง concentration. <em>Owner: คุณตะวัน + ฝ่ายการเงิน · Deadline: 7 วัน</em></div>
-<div class="gap"><strong>5. Cash position ปัจจุบัน + 13-week forecast (Impact: CRITICAL)</strong> — เพื่อยืนยันว่ามี source bridge 12 ลบ. ทำ Switch ได้จริง. <em>Owner: ฝ่ายการเงิน · Deadline: 3 วัน</em></div>
-<p style="margin-top:8px;font-size:12px;color:#5a6c80"><strong>ผลกระทบรวมต่อความแม่นยำ:</strong> ถ้าไม่มี #1, #2, #5 — Option B จะ execute ไม่ได้จริง / ถ้าไม่มี #3 — refinance อาจขาดทุนจาก fee ปิดวงเงินเดิม / ถ้าไม่มี #4 — concentration risk จะส่งสัญญาณผิดให้ธนาคารใหม่</p>
-</div>
-
-<div class="footer">
-Strategic Intersection Intelligence Engine · CFO Ava · บริษัท ศรีชลธร จำกัด<br>
-Data Confidence: Fact (ข้อมูล 4 ไฟล์แนบ) · Assumption (อัตราเติบโตอสังหาเชียงราย, BG utilization) · Unknown (cash position, backlog certainty)
 </div>
 
 </body>
