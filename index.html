@@ -6,87 +6,84 @@
 
 <style>
 body {
-  font-family: "Segoe UI", sans-serif;
-  margin: 0;
-  background: #f4f6fa;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6fa;
 }
 
 .header {
-  background: #0b3d91;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
+    background: #0b3d91;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .container {
-  padding: 30px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px;
 }
 
 .card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 
-.card h2 {
-  margin-bottom: 10px;
-  color: #0b3d91;
-}
-
-.card p {
-  color: #666;
-  font-size: 14px;
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .btn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  border: none;
-  background: #0b3d91;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
+    margin-top: 15px;
+    display: inline-block;
+    padding: 10px 18px;
+    background: #0b3d91;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
 }
+
 </style>
-
-<script>
-function openStrategic() {
-  window.open("https://accsrichonlathorn-collab.github.io/SCT_Strategic_Intersection_Dashboard_new/", "_blank");
-}
-
-function openExecutive() {
-  window.open("https://accsrichonlathorn-collab.github.io/SCT_Executive_Status_Board_new/", "_blank");
-}
-</script>
-
 </head>
 
 <body>
 
 <div class="header">
-SCT Portal Dashboard
+    SCT Portal Dashboard
 </div>
 
 <div class="container">
 
-  <div class="card">
-    <h2>📊 Strategic Dashboard</h2>
-    <p>ภาพรวมกลยุทธ์</p>
-    <button class="btn" onclick="openStrategic()">เปิดใช้งาน</button>
-  </div>
+    <div class="card">
+        <h3>📊 Strategic Dashboard</h3>
+        <p>ภาพรวมกลยุทธ์</p>
+        <a class="btn" href="https://accsrichonlathorn-collab.github.io/SCT_Strategic_Intersection_Dashboard_new/" target="_blank">
+            เปิดใช้งาน
+        </a>
+    </div>
 
-  <div class="card">
-    <h2>📈 Executive Dashboard</h2>
-    <p>สถานะผู้บริหาร</p>
-    <button class="btn" onclick="openExecutive()">เปิดใช้งาน</button>
-  </div>
+    <div class="card">
+        <h3>📈 Portal Dashboard</h3>
+        <p>เมนูระบบหลัก</p>
+        <a class="btn" href="https://accsrichonlathorn-collab.github.io/sct-dashboard/" target="_blank">
+            เปิดใช้งาน
+        </a>
+    </div>
+
+    <div class="card">
+        <h3>📋 Executive Dashboard</h3>
+        <p>สำหรับผู้บริหาร</p>
+        <a class="btn" href="https://accsrichonlathorn-collab.github.io/SCT_Executive_Status_Board_new/" target="_blank">
+            เปิดใช้งาน
+        </a>
+    </div>
 
 </div>
 
