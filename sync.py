@@ -52,7 +52,7 @@ def clamp_pct(v, default=0):
             if v == "":
                 return default
         n = float(v)
-        if 0 < n <= 1.0 and not float(v).is_integer():
+        if 0 < n <= 1.0
             n = n * 100
         return int(max(0, min(100, round(n))))
     except (TypeError, ValueError):
